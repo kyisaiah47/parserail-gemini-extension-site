@@ -251,7 +251,7 @@ function Tracker() {
           });
         }
     }); };
-    const idle = 'requestIdleCallback' in window
+    const idle = typeof window.requestIdleCallback === 'function'
       ? window.requestIdleCallback(startAnalytics, { timeout: 2000 })
       : window.setTimeout(startAnalytics, 1000);
     return () => {
