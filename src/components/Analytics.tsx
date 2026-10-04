@@ -198,7 +198,7 @@ function Tracker() {
     /* The pageview AWAITS the SDK rather than testing a flag. With a static import
      * `initialized` was already true by the time this ran. With a fetch it is not, and an
      * early return here would silently drop the first pageview of every visit. */
-    void init().then((ok) => {
+    const startAnalytics = () => { void init().then((ok) => {
       if (!ok || cancelled || !posthog) return;
 
         // First-touch UTM attribution. It rides on every later event (incl. checkout/purchase).
@@ -250,8 +250,15 @@ function Tracker() {
             verified: /^cs_[A-Za-z0-9_]+$/.test(sessionId) ? 'session' : 'flag',
           });
         }
-    });
-    return () => { cancelled = true; };
+    }); };
+    const idle = 'requestIdleCallback' in window
+      ? window.requestIdleCallback(startAnalytics, { timeout: 2000 })
+      : window.setTimeout(startAnalytics, 1000);
+    return () => {
+      cancelled = true;
+      if ('cancelIdleCallback' in window && typeof idle === 'number') window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle as number);
+    };
   }, [pathname, searchParams]);
 
   return null;
