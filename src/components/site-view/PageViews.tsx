@@ -1,8 +1,17 @@
 'use client';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { useSiteView } from './SiteViewProvider';
 
-/** One of the two compositions of a route. Console renders until the provider reads a Simple choice. */
+/** The BODY switch of a route. It registers the route's Simple composition with the provider, so the
+ * chrome shows Simple only where the body does. Console renders until the provider reads a Simple
+ * choice, and always on a route with no Simple composition. */
 export default function PageViews({ consoleView, simpleView }: { consoleView: ReactNode; simpleView?: ReactNode }) {
-  return useSiteView()?.view === 'simple' && simpleView !== undefined ? simpleView : consoleView;
+  const ctx = useSiteView();
+  const path = usePathname();
+  const has = simpleView !== undefined;
+  const register = ctx?.registerSimple;
+  useEffect(() => (has && register ? register(path) : undefined), [path, has, register]);
+  return ctx?.view === 'simple' && has ? simpleView : consoleView;
 }
+

@@ -36,6 +36,8 @@
 .sv-view-tools button { min-height: 44px; color: var(--sv-dim); }
 .sv-view-tools button:hover { color: var(--sv-ink); }
 .sv-view-tools button[aria-pressed='true'] { color: var(--sv-ink); text-decoration: underline; text-underline-offset: 5px; }
+.sv-view-tools button:disabled { opacity: 0.45; cursor: not-allowed; }
+.sv-view-tools button:disabled:hover { color: var(--sv-dim); }
 
 /* ---- chrome ------------------------------------------------------------------------------- */
 [data-view='simple'] :focus-visible, .sv-welcome :focus-visible { outline: 2px solid var(--sv-acc); outline-offset: 4px; }
@@ -316,6 +318,7 @@
 .sv-facts dd { color: var(--sv-ink); overflow-wrap: anywhere; }
 .sv-facts code { font: 14px var(--sv-mono); color: var(--sv-ink); }
 .sv-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+ol.sv-cards { list-style: none; margin: 0; padding: 0; }
 .sv-cards > * { border: 1px solid var(--sv-rule); background: var(--sv-panel); padding: 28px; }
 .sv-cards h3 { font: 500 22px/1.35 var(--sv-sans); letter-spacing: -0.02em; color: var(--sv-ink); }
 .sv-cards p { padding-top: 12px; font: 16px/1.7 var(--sv-sans); color: var(--sv-dim); }

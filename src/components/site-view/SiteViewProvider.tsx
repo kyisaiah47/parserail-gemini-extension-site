@@ -20,7 +20,14 @@ import { usePathname } from 'next/navigation';
 export type SiteView = 'console' | 'simple';
 
 interface ViewContext {
+  /** The EFFECTIVE view: Simple only when the visitor chose Simple and this route has a Simple body. */
   view: SiteView;
+  /** The saved preference (localStorage or ?view=). The guard never alters it. */
+  chosen: SiteView;
+  /** True when the body of the current route registered a Simple composition. */
+  hasSimple: boolean;
+  /** Called by the body-level PageViews only. Returns the cleanup. */
+  registerSimple: (path: string) => () => void;
   choose: (view: SiteView) => void;
   welcome: () => void;
   keys: { view: string; welcomeOff: string; event: string };
@@ -61,9 +68,18 @@ export default function SiteViewProvider({
   children: ReactNode;
 }) {
   const keys = { view: `${slug}:view`, welcomeOff: `${slug}:welcome-off`, event: `${slug}:welcome` };
-  const [view, setView] = useState<SiteView>('console');
+  const [chosen, setView] = useState<SiteView>('console');
   const [memory] = useState(() => new Map<string, unknown>());
   const path = usePathname();
+  /* NEVER CROSS OVER. The chrome follows the body: a route shows Simple only when its body has a
+   * Simple composition. The stamp is the path that registered, so a navigation never needs a reset. */
+  const [simplePath, setSimplePath] = useState<string | null>(null);
+  const hasSimple = simplePath === path;
+  const view: SiteView = chosen === 'simple' && hasSimple ? 'simple' : 'console';
+  const registerSimple = useCallback((at: string) => {
+    setSimplePath(at);
+    return () => setSimplePath((p) => (p === at ? null : p));
+  }, []);
 
   const choose = useCallback(
     (next: SiteView) => {
@@ -104,7 +120,7 @@ export default function SiteViewProvider({
   const welcomeOpen = useCallback(() => window.dispatchEvent(new Event(`${slug}:welcome`)), [slug]);
 
   return (
-    <Context.Provider value={{ view, choose, welcome: welcomeOpen, keys }}>
+    <Context.Provider value={{ view, chosen, hasSimple, registerSimple, choose, welcome: welcomeOpen, keys }}>
       <Memory.Provider value={memory}>
         <div className="site-surface" data-view={view}>
           {children}
