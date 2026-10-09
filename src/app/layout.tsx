@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       publisher: { '@type': 'Organization', '@id': 'https://thecompound.tech/#organization', name: 'Compound Labs', url: 'https://thecompound.tech' },
     }).replace(/</g, '\\u003c') }} />
     <SmoothScroll />
-    <SiteViewProvider slug="compound-gemini-extension" welcome={<Welcome copy={{
+    <SiteViewProvider slug="parserail-gemini-extension" welcome={<Welcome copy={{
       name: PRODUCT.name,
       mark: <Mark />,
       eyebrow: 'GEMINI CLI. YOUR DOCUMENTS.',

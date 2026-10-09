@@ -1,5 +1,5 @@
 #!/bin/bash
-# scripts/deploy.sh for compound-gemini-extension-site. Cloudflare Workers.
+# scripts/deploy.sh for parserail-gemini-extension-site. Cloudflare Workers.
 #
 # The estate deploys to Cloudflare Workers through opennextjs-cloudflare. Nothing here targets
 # Vercel and this repo carries no vercel.json: measured 2026-09-19, all 57 Vercel projects read
@@ -31,7 +31,7 @@ WORKER="https://compound-gemini-extension-site.kyisaiah47.workers.dev"
 HOST="compound-gemini-extension.thecompound.tech"
 
 . "$HOME/CompoundLabs/compound-ops/tools/deploy-lock.sh" || { echo "deploy gate missing, refusing to deploy" >&2; exit 1; }
-deploy_gate "compound-gemini-extension-site"
+deploy_gate "parserail-gemini-extension-site"
 
 echo "==> the register gate, before anything is built"
 npm run check
@@ -71,4 +71,4 @@ if [ -n "$HOST" ]; then
   fi
 fi
 
-echo "compound-gemini-extension-site: deployed and verified"
+echo "parserail-gemini-extension-site: deployed and verified"

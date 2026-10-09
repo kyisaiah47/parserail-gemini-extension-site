@@ -1,4 +1,4 @@
-// Worker entry. compound-gemini-extension is now a page on ParseRail, so every path on this host answers 308 with
+// Worker entry. parserail-gemini-extension is now a page on ParseRail, so every path on this host answers 308 with
 // the matching ParseRail page and keeps the query string: the crawl files go to the same file on
 // ParseRail's host, and every other path, static assets included, goes to /docs/gemini-extension, the page for
 // parserail-gemini-extension. assets.run_worker_first in wrangler.jsonc sends asset paths through this handler too.

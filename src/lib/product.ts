@@ -7,7 +7,7 @@
  */
 export const PRODUCT = {
   name: 'ParseRail for Gemini CLI',
-  slug: 'compound-gemini-extension',
+  slug: 'parserail-gemini-extension',
   host: 'compound-gemini-extension.thecompound.tech',
   accent: '#E492C9',
   accentHover: '#F8A5DC',
